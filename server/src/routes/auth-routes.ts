@@ -28,7 +28,7 @@ const routes: RouteConfig[] = [
     method: 'post',
     path: '/refresh-token',
     // check if uesr has refresh token
-    middleware: [AuthMiddleware.refresTokenValidation],
+    middleware: [AuthMiddleware.refreshTokenValidation],
     handler: AuthController.refreshToken,
   },
 ];

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import authConfig from '@config/auth-config';
 import { decodedToken } from './authenticate-user';
 
-const refresTokenValidation = (
+const refreshTokenValidation = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,4 +34,4 @@ const refresTokenValidation = (
   }
 };
 
-export default refresTokenValidation;
+export default refreshTokenValidation;

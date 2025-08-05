@@ -53,7 +53,6 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     });
 
     const { password_hash, ...safeUser } = user;
-    // res.status(200).send(safeUser);
     apiResponse.success(res, safeUser);
     return;
   } catch (err) {

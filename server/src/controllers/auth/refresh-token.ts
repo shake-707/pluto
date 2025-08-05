@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import { getUser } from '@services/users';
 import jwt from 'jsonwebtoken';
 import authConfig from '@config/auth-config';
-import { strict } from 'assert';
 import apiResponse from '@lib/api-response';
 const MINS_15 = 15 * 60 * 1000;
 const HRS_24 = 24 * 60 * 60 * 1000;
@@ -17,7 +15,7 @@ const refreshToken = async (req: Request, res: Response) => {
       return;
     }
 
-    const newAccessToken = jwt.sign({ userId: userId }, authConfig.secret, {
+    const newAccessToken = await jwt.sign({ userId: userId }, authConfig.secret, {
       expiresIn: authConfig.secret_expires_in as any,
     });
 
@@ -27,7 +25,7 @@ const refreshToken = async (req: Request, res: Response) => {
       sameSite: 'strict',
     });
 
-    apiResponse.success(res, { messgae: 'access token refreshed' });
+    apiResponse.success(res, { message: 'access token refreshed' });
     return;
   } catch (err) {
     console.error('refresh token failed', err);

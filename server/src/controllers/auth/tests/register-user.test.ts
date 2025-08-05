@@ -10,112 +10,101 @@ jest.mock('@config/db-config', () => {
 
 jest.mock('@services/users');
 
-describe('auth controller', () => {
-  describe('registering a user', () => {
-    let mockRequest: Partial<Request>;
-    let res: Response;
+describe('registering a user', () => {
+  let mockRequest: Partial<Request>;
+  let res: Response;
 
-    const mockResponse = (): Response => {
-      const res: Partial<Response> = {};
-      res.status = jest.fn().mockReturnValue(res);
-      res.json = jest.fn().mockReturnValue(res);
-      return res as Response;
+  const mockResponse = (): Response => {
+    const res: Partial<Response> = {};
+    res.status = jest.fn().mockReturnValue(res);
+    res.json = jest.fn().mockReturnValue(res);
+    return res as Response;
+  };
+
+  beforeEach(() => {
+    mockRequest = {
+      body: {},
     };
 
-    beforeEach(() => {
-      mockRequest = {
-        body: {},
-      };
+    res = mockResponse();
+  });
+  it('should send bad requst if email already in database', async () => {
+    mockRequest.body = {
+      username: 'testuser',
+      email: 'used@email.com',
+      password: 'password123',
+      passwordConfirmation: 'password123',
+    };
 
-      res = mockResponse();
-    });
-    it('should send bad requst if email already in database', async () => {
-      mockRequest.body = {
-        username: 'testuser',
-        email: 'used@email.com',
-        password: 'password123',
-        passwordConfirmation: 'password123',
-      };
+    const user = mockRequest.body;
 
-      const user = mockRequest.body;
-
-      (insertUser as jest.Mock).mockRejectedValue(
-        new Error('Email already exists')
-      );
-      (getUser as jest.Mock).mockImplementation((field, value) => {
-        if (field === 'email' && value === 'used@email.com') {
-          return Promise.resolve({ id: 1, email: value });
-        }
-        return Promise.resolve(null);
-      });
-
-      await AuthController.registerUser(
-        mockRequest as Request,
-        res as Response
-      );
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({
-        ok: false,
-        message: 'email already exists',
-        data: null,
-      });
-      expect(insertUser).not.toHaveBeenCalled();
+    (insertUser as jest.Mock).mockRejectedValue(
+      new Error('Email already exists')
+    );
+    (getUser as jest.Mock).mockImplementation((field, value) => {
+      if (field === 'email' && value === 'used@email.com') {
+        return Promise.resolve({ id: 1, email: value });
+      }
+      return Promise.resolve(null);
     });
 
-    it('should send a bad request if username already in database', async () => {
-      mockRequest.body = {
-        username: 'testuser',
-        email: 'used@email.com',
-        password: 'password123',
-        passwordConfirmation: 'password123',
-      };
+    await AuthController.registerUser(mockRequest as Request, res as Response);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      ok: false,
+      message: 'email already exists',
+      data: null,
+    });
+    expect(insertUser).not.toHaveBeenCalled();
+  });
 
-      (getUser as jest.Mock).mockImplementation((field, value) => {
-        if (field === 'user_name' && value === 'testuser') {
-          return Promise.resolve({ id: 1, username: value });
-        }
-        return Promise.resolve(null);
-      });
+  it('should send a bad request if username already in database', async () => {
+    mockRequest.body = {
+      username: 'testuser',
+      email: 'used@email.com',
+      password: 'password123',
+      passwordConfirmation: 'password123',
+    };
 
-      await AuthController.registerUser(
-        mockRequest as Request,
-        res as Response
-      );
-
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.json).toHaveBeenCalledWith({
-        ok: false,
-        message: 'username already exists',
-        data: null,
-      });
-
-      expect(insertUser).not.toHaveBeenCalled();
+    (getUser as jest.Mock).mockImplementation((field, value) => {
+      if (field === 'user_name' && value === 'testuser') {
+        return Promise.resolve({ id: 1, username: value });
+      }
+      return Promise.resolve(null);
     });
 
-    it('should send success if user registered if unique username and email', async () => {
-      mockRequest.body = {
-        username: 'uniqueUser',
-        email: 'unique@email.com',
-        password: 'password123',
-        passwordConfirmation: 'password123',
-      };
+    await AuthController.registerUser(mockRequest as Request, res as Response);
 
-      (getUser as jest.Mock).mockResolvedValue(null);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      ok: false,
+      message: 'username already exists',
+      data: null,
+    });
 
-      (insertUser as jest.Mock).mockResolvedValue({});
+    expect(insertUser).not.toHaveBeenCalled();
+  });
 
-      await AuthController.registerUser(
-        mockRequest as Request,
-        res as Response
-      );
+  it('should send success if user registered if unique username and email', async () => {
+    mockRequest.body = {
+      username: 'uniqueUser',
+      email: 'unique@email.com',
+      password: 'password123',
+      passwordConfirmation: 'password123',
+    };
 
-      expect(insertUser).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith({
-        ok: true,
-        data: {},
-        message: 'successful registration',
-      });
+    (getUser as jest.Mock).mockResolvedValue(null);
+
+    (insertUser as jest.Mock).mockResolvedValue({});
+
+    await AuthController.registerUser(mockRequest as Request, res as Response);
+
+    expect(insertUser).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith({
+      ok: true,
+      data: {},
+      message: 'successful registration',
     });
   });
 });
