@@ -6,7 +6,6 @@ import authConfig from '@config/auth-config';
 import { login } from './utils/auth-schema';
 import { loginRequestData } from './utils/auth-types';
 import { getUser } from '@services/users';
-import { UserDBData } from '@services/users/types';
 import apiResponse from '@lib/api-response';
 
 const MINS_15 = 15 * 60 * 1000;
@@ -35,6 +34,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     const accessToken = jwt.sign({ userId: user.id }, authConfig.secret, {
       expiresIn: authConfig.secret_expires_in as any,
     });
+
 
     const refressToken = jwt.sign({ userId: user.id }, authConfig.secret, {
       expiresIn: authConfig.refresh_secret_expires_in as any,
