@@ -1,4 +1,8 @@
-import { createRootRoute, Outlet, useRouterState } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  Outlet,
+  useRouterState,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { Link } from '@tanstack/react-router';
 
@@ -13,15 +17,14 @@ export const Route = createRootRoute({
 function RootComponent() {
   const location = useRouterState({ select: (s) => s.location });
 
-  // Hide header if route starts with "/auth"
   const hideHeader = location.pathname.startsWith('/auth');
 
   return (
     <>
       {!hideHeader && (
         <header>
-          {/* your nav links here */}
           {login} {register} {about}
+          
         </header>
       )}
 

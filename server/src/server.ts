@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import appConfig from '@config/app-config';
 import { AuthRouter } from '@routes/auth-routes';
-
+import { BookRouter } from '@routes/user-routes';
 
 const PORT = appConfig.port;
 const HOST = process.env.HOST;
@@ -28,13 +28,14 @@ const startServer = async () => {
 
     app.use(express.json());
     app.use(cookieParser());
-    app.use(express.urlencoded({extended: true}))
+    app.use(express.urlencoded({ extended: true }));
 
     app.use('/api/hello', (req, res) => {
       res.send('hello from server');
     });
 
     app.use('/api/auth', AuthRouter);
+    app.use('/api/books', BookRouter);
 
     app.listen(PORT, () => {
       console.log(`Server is running on http://${HOST}:${PORT}`);
