@@ -10,42 +10,79 @@ import {
 
 import { Input } from '../../../Shared/ui/input';
 import { Label } from '../../../Shared/ui/label';
-
+import { fetchLoginUser } from '../api/login-user';
+import { useState } from 'react';
+import { z } from 'zod';
+import authSchema from '../utils/auth-schema';
+export type LoginInput = z.infer<typeof authSchema.login>;
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const [input, setInputs] = useState<LoginInput>({
+    username: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const finalInputs = authSchema.login.safeParse(input);
+
+    if (!finalInputs.success) {
+      console.log(finalInputs.data);
+      console.error('invalid inputs');
+      return;
+    }
+    try {
+      const user = await fetchLoginUser(finalInputs.data);
+      console.log(user);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
-          
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
+                  id="username"
+                  type="username"
+                  name="username"
+                  placeholder="username"
+                  value={input.username}
+                  onChange={handleChange}
                   required
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  value={input.password}
+                  onChange={handleChange}
+                  required
+                />
                 <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
+                  href="#"
+                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                >
+                  Forgot your password?
+                </a>
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
