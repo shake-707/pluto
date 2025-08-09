@@ -1,11 +1,16 @@
-import { Label } from "../../Shared/ui/label";
-import { Button } from "../../Shared/ui/button";
+import { currentUserQuery } from '../../Shared/queries/currUser';
+
 const Home = () => {
-    return (
-        <>
-        <div>Home</div>
-        </>
-    )
-}
+  const { data, isError, isLoading } = currentUserQuery();
+
+  if (isLoading) return <div>Loading…</div>;
+  if (isError) return <div>Something went wrong.</div>;
+  return (
+    <>
+      <div>Home</div>
+      {data ? (<div>{data.user_name}</div>) : (<div>user not logged in</div>)}
+    </>
+  );
+};
 
 export default Home;

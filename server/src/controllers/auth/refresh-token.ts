@@ -7,7 +7,7 @@ const HRS_24 = 24 * 60 * 60 * 1000;
 
 const refreshToken = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).userId;
+    const user = (req as any).user;
     const refreshToken = req.cookies.refreshToken;
 
     if (!refreshToken) {
@@ -15,7 +15,7 @@ const refreshToken = async (req: Request, res: Response) => {
       return;
     }
 
-    const newAccessToken = await jwt.sign({ userId: userId }, authConfig.secret, {
+    const newAccessToken = await jwt.sign({ user: user.id, user_name: user.user_name, email: user.email  }, authConfig.secret, {
       expiresIn: authConfig.secret_expires_in as any,
     });
 

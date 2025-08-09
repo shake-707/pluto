@@ -1,6 +1,6 @@
 export type UserDBData = {
   id: number;
-  username: string;
+  user_name: string;
   email: string;
   password_hash: string;
 };

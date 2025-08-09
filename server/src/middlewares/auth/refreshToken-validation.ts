@@ -21,8 +21,9 @@ const refreshTokenValidation = (
       refreshToken,
       authConfig.refresh_secret
     ) as decodedToken;
+    console.log('decoded token',decodedToken);
 
-    (req as any).userId = decodedToken.userId;
+    (req as any).user = decodedToken;
 
     next();
   } catch (err) {

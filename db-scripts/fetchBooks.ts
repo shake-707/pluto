@@ -3,9 +3,10 @@ import fetch from 'node-fetch';
 export type OpenLibWork = {
   key: string;
   title: string;
-  authors?: {key: string, name: string }[];
+  authors?: { key: string; name: string }[];
   cover_id?: number;
   first_publish_year?: number;
+  languages?: { key: string }[];
   [key: string]: any;
 };
 
@@ -34,6 +35,14 @@ export const fetchBooksBySubject = async (
   }
 
   const data: OpenLibResponse = await response.json();
+  console.log(data.works[0].languages);
 
-  return data.works;
+  const englishBooks = data.works.filter(
+    (work) =>
+      !work.languages || work.languages.some((l) => l.key === '/languages/eng')
+  );
+  console.log(`${data.works.length} total works fetched for "${subject}"`);
+  console.log(`${englishBooks.length} English works kept`);
+
+  return englishBooks;
 };

@@ -1,20 +1,14 @@
-import { createRouter, RouteConfig } from "./index";
-import { BooksController } from "@controllers/index";
-
-//  {
-//     method: 'post',
-//     path: '/login',
-//     // check if request body has valid login inputs
-//     middleware: [ValidationsMiddleware.validateBody(AuthController.AuthSchema.login)],
-//     handler: AuthController.loginUser,
-//   },
+import { createRouter, RouteConfig } from './index';
+import { UserController } from '@controllers/index';
+import { AuthMiddleware } from '@middlewares/index';
 
 const routes: RouteConfig[] = [
-    {
-        method: 'get',
-        path: '/get-books',
-        handler: BooksController.fetchBooks
-    }
-]
+  {
+    method: 'get',
+    path: '/current-user',
+    middleware: [AuthMiddleware.authenticateUser],
+    handler: UserController.getCurrentUser,
+  },
+];
 
-export const BookRouter = createRouter(routes);
+export const UserRouter = createRouter(routes);

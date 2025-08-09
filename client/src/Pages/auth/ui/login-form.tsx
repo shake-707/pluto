@@ -14,11 +14,13 @@ import { fetchLoginUser } from '../api/login-user';
 import { useState } from 'react';
 import { z } from 'zod';
 import authSchema from '../utils/auth-schema';
+import { useNavigate } from '@tanstack/react-router';
 export type LoginInput = z.infer<typeof authSchema.login>;
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const navigate = useNavigate();
   const [input, setInputs] = useState<LoginInput>({
     username: '',
     password: '',
@@ -40,6 +42,10 @@ export function LoginForm({
     try {
       const user = await fetchLoginUser(finalInputs.data);
       console.log(user);
+      navigate({
+        from: '/auth/login',
+        to: '/',
+      });
     } catch (err) {
       console.error(err);
     }

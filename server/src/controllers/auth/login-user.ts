@@ -18,6 +18,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     >;
 
     const user = await getUser('user_name', username);
+    console.log(user);
 
     if (!user) {
       apiResponse.notFound(res, null, 'invalid username');
@@ -31,14 +32,21 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const accessToken = jwt.sign({ userId: user.id }, authConfig.secret, {
-      expiresIn: authConfig.secret_expires_in as any,
-    });
+    const accessToken = jwt.sign(
+      { userId: user.id, user_name: user.user_name, email: user.email },
+      authConfig.secret,
+      {
+        expiresIn: authConfig.secret_expires_in as any,
+      }
+    );
 
-
-    const refressToken = jwt.sign({ userId: user.id }, authConfig.secret, {
-      expiresIn: authConfig.refresh_secret_expires_in as any,
-    });
+    const refressToken = jwt.sign(
+      { userId: user.id, user_name: user.user_name, email: user.email },
+      authConfig.refresh_secret,
+      {
+        expiresIn: authConfig.refresh_secret_expires_in as any,
+      }
+    );
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,

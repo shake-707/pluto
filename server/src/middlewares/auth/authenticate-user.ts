@@ -5,9 +5,10 @@ import authConfig from '@config/auth-config';
 
 export type decodedToken = {
   userId: number;
+  user_name: string;
 };
 
- const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.accessToken;
 
   if (!token) {
@@ -18,7 +19,7 @@ export type decodedToken = {
   try {
     const decodedToken = jwt.verify(token, authConfig.secret) as decodedToken;
 
-    (req as any).userId = decodedToken.userId;
+    (req as any).user = decodedToken;
 
     next();
   } catch (err) {

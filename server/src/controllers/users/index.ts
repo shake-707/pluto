@@ -1,3 +1,4 @@
 import getUserFollowers from "./get-user-followers";
+import getCurrentUser from "./get-current-user";
 
-export default {getUserFollowers}
+export default {getUserFollowers, getCurrentUser}
