@@ -4,20 +4,18 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import authConfig from '@config/auth-config';
 import { login } from './utils/auth-schema';
-import { loginRequestData } from './utils/auth-types';
-import { getUser } from '@services/users';
 import apiResponse from '@lib/api-response';
-
+import { UserServices } from '@services/index';
 const MINS_15 = 15 * 60 * 1000;
 const HRS_24 = 24 * 60 * 60 * 1000;
 
 const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, password }: loginRequestData = req.body as z.infer<
+    const { username, password } = req.body as z.infer<
       typeof login
     >;
 
-    const user = await getUser('user_name', username);
+    const user = await UserServices.getUser('user_name', username);
     console.log(user);
 
     if (!user) {

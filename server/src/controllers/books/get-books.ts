@@ -1,12 +1,10 @@
-import { getBooks } from '@services/books/get-books';
 import { Request, Response } from 'express';
 import apiResponse from '@lib/api-response';
+import { BookServices } from '@services/index';
 
 const fetchBooks = async (req: Request, res: Response) => {
   try {
-    // const booksData = await getBooks();
-   const booksData = await getBooks();
-   console.log('data from books', booksData);
+    const booksData = await BookServices.getBooks();
     apiResponse.success(res, booksData);
   } catch (err) {
     console.error(err);

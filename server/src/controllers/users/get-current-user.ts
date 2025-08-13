@@ -4,9 +4,7 @@ import apiResponse from '@lib/api-response';
 const getCurrentUser = async (req: Request, res: Response) => {
   try {
     const currentUser = (req as any).user;
-    console.log(currentUser);
-
-  
+    //console.log(currentUser);
 
     apiResponse.success(res, currentUser);
   } catch (err) {

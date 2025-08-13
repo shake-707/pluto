@@ -21,7 +21,12 @@ describe('resfreshing access token', () => {
 
   beforeEach(() => {
     req = {
-      userId: 1,
+      user: {
+        id: 1,
+        username: 'testuser',
+        email: 'test@email.ci',
+        password_hash: 'hashedpass123',
+      },
       cookies: {},
     } as any;
 
@@ -32,6 +37,7 @@ describe('resfreshing access token', () => {
     req.cookies = {
       refreshToken: 'validToken',
     };
+
     (jwt.sign as jest.Mock).mockReturnValue('mockToken');
     await refreshToken(req as Request, res);
 

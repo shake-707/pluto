@@ -1,10 +1,10 @@
-import { insertUser, getUser } from '@services/users';
+import { UserServices } from '@services/index';
 import { AuthController } from '@controllers/index';
 import { Request, Response } from 'express';
 import apiResponse from '@lib/api-response';
 
 // skip db call
-jest.mock('@config/db-config', () => {
+jest.mock('@config/index', () => {
   return {};
 });
 
@@ -38,10 +38,10 @@ describe('registering a user', () => {
 
     const user = mockRequest.body;
 
-    (insertUser as jest.Mock).mockRejectedValue(
+    (UserServices.insertUser as jest.Mock).mockRejectedValue(
       new Error('Email already exists')
     );
-    (getUser as jest.Mock).mockImplementation((field, value) => {
+    (UserServices.getUser as jest.Mock).mockImplementation((field, value) => {
       if (field === 'email' && value === 'used@email.com') {
         return Promise.resolve({ id: 1, email: value });
       }
@@ -55,7 +55,7 @@ describe('registering a user', () => {
       message: 'email already exists',
       data: null,
     });
-    expect(insertUser).not.toHaveBeenCalled();
+    expect(UserServices.insertUser).not.toHaveBeenCalled();
   });
 
   it('should send a bad request if username already in database', async () => {
@@ -66,7 +66,7 @@ describe('registering a user', () => {
       passwordConfirmation: 'password123',
     };
 
-    (getUser as jest.Mock).mockImplementation((field, value) => {
+    (UserServices.getUser as jest.Mock).mockImplementation((field, value) => {
       if (field === 'user_name' && value === 'testuser') {
         return Promise.resolve({ id: 1, username: value });
       }
@@ -82,7 +82,7 @@ describe('registering a user', () => {
       data: null,
     });
 
-    expect(insertUser).not.toHaveBeenCalled();
+    expect(UserServices.insertUser).not.toHaveBeenCalled();
   });
 
   it('should send success if user registered if unique username and email', async () => {
@@ -93,13 +93,13 @@ describe('registering a user', () => {
       passwordConfirmation: 'password123',
     };
 
-    (getUser as jest.Mock).mockResolvedValue(null);
+    (UserServices.getUser as jest.Mock).mockResolvedValue(null);
 
-    (insertUser as jest.Mock).mockResolvedValue({});
+    (UserServices.insertUser as jest.Mock).mockResolvedValue({});
 
     await AuthController.registerUser(mockRequest as Request, res as Response);
 
-    expect(insertUser).toHaveBeenCalled();
+    expect(UserServices.insertUser).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       ok: true,

@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { getUser } from '@services/users';
+import { UserServices } from '@services/index';
 import loginUser from '@controllers/auth/login-user';
 
-jest.mock('@services/users');
+
+jest.mock('@services/index');
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
-jest.mock('@config/db-config', () => {
+jest.mock('@config/index', () => {
   return {};
 });
 
@@ -45,7 +46,7 @@ describe('login user controller', () => {
       password_hash: 'hashedpass123',
     };
 
-    (getUser as jest.Mock).mockResolvedValue(mockUser);
+    (UserServices.getUser as jest.Mock).mockResolvedValue(mockUser);
     (bcrypt.compare as jest.Mock).mockResolvedValue(true);
     (jwt.sign as jest.Mock).mockReturnValue('mockToken');
 
@@ -82,7 +83,7 @@ describe('login user controller', () => {
   });
 
   it('should return 404 if username is invalid', async () => {
-    (getUser as jest.Mock).mockResolvedValue(null);
+    (UserServices.getUser as jest.Mock).mockResolvedValue(null);
 
     await loginUser(req as Request, res);
 
@@ -101,7 +102,7 @@ describe('login user controller', () => {
       password_hash: 'hashedpass123',
     };
 
-    (getUser as jest.Mock).mockResolvedValue(mockUser);
+    (UserServices.getUser as jest.Mock).mockResolvedValue(mockUser);
     (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
     await loginUser(req as Request, res);

@@ -1,6 +1,6 @@
 import { db } from '@config/index';
 
-export const getBooks = async () => {
+const getBooks = async () => {
   try {
     const books = await db.selectFrom('books').selectAll().execute();
     return books;
@@ -8,3 +8,5 @@ export const getBooks = async () => {
     throw err;
   }
 };
+
+export default getBooks;

@@ -1,4 +1,3 @@
-//import db from '@config/db-config';
 import { db } from '@config/index';
 import { NewUser } from '@config/database/schema';
 
