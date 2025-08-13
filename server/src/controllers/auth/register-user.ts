@@ -9,6 +9,7 @@ import { register } from './utils/auth-schema';
 import { insertUser } from '@services/users';
 import { getUser } from '@services/users';
 import apiResponse from '@lib/api-response';
+import { NewUser } from '@config/database/schema';
 
 const registerUser = async (req: Request, res: Response) => {
   try {
@@ -34,7 +35,18 @@ const registerUser = async (req: Request, res: Response) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 12);
-    await insertUser(username, email, hashPassword);
+    const newUser = {
+      user_name: username,
+      email: email,
+      password_hash: hashPassword,
+    };
+    console.log('new user: ', newUser);
+    
+    await insertUser({
+      user_name: username,
+      email: email,
+      password_hash: hashPassword,
+    });
 
     // res.status(200).send('successful registration');
     apiResponse.created(res, {}, 'successful registration');

@@ -25,7 +25,10 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
+    const isValidPassword = await bcrypt.compare(
+      password,
+      user.password_hash as string
+    );
 
     if (!isValidPassword) {
       apiResponse.notFound(res, null, 'invalid password');
