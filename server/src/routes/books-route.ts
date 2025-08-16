@@ -5,7 +5,7 @@ import { BooksController } from "@controllers/index";
 const routes: RouteConfig[] = [
     {
         method: 'get',
-        path: '/get-books',
+        path: '/',
         handler: BooksController.fetchBooks
     }
 ]

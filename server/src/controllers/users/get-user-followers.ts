@@ -3,7 +3,7 @@ import { UserServices } from '@services/index';
 import apiResponse from '@lib/api-response';
 const getUserFollowers = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).userId;
+    const { userId }= req.body;
     const users = await UserServices.getUserFollowers(userId);
     apiResponse.success(res, users);
   } catch (err) {

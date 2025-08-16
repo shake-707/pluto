@@ -1,8 +1,16 @@
 import { db } from '@config/index';
-
-const getBooks = async () => {
+import { sql } from 'kysely';
+import type { bookData } from './types';
+const getBooks = async (): Promise<bookData[]> => {
   try {
-    const books = await db.selectFrom('books').selectAll().execute();
+    const books: bookData[] = await db
+      .selectFrom('books')
+      .leftJoin('books_authors_join as ba_j', 'ba_j.book_key', 'books.key')
+      .leftJoin('book_authors as ba', 'ba.key', 'ba_j.author_key')
+      .selectAll('books')
+      .select(() => sql<string[]>`COALESCE(array_agg(ba.name))`.as('authors'))
+      .groupBy('books.key')
+      .execute();
     return books;
   } catch (err) {
     throw err;
