@@ -1,15 +1,15 @@
-import { cn } from '../../../lib/utils';
-import { Button } from '../../../Shared/ui/button';
+import { cn } from '@/lib/utils';
+import { Button } from '@/Shared/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../Shared/ui/card';
+} from '@/Shared/ui/card';
 import { useState } from 'react';
-import { Input } from '../../../Shared/ui/input';
-import { Label } from '../../../Shared/ui/label';
+import { Input } from '@/Shared/ui/input';
+import { Label } from '@/Shared/ui/label';
 import authSchema from '../utils/auth-schema';
 import { z } from 'zod';
 import { postRegisterUser } from '../api/register-user';

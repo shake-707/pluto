@@ -1,4 +1,4 @@
-import api from '../../../Shared/api/default-api';
+import api from '@/Shared/api/default-api';
 import type { RegisterInputs } from '../ui/register-form';
 
 export const postRegisterUser = (reqData: RegisterInputs): Promise<void> => {

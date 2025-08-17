@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './App/routes/__root'
 import { Route as IndexRouteImport } from './App/routes/index'
 import { Route as BooksIndexRouteImport } from './App/routes/books/index'
-import { Route as AccountIndexRouteImport } from './App/routes/account/index'
+import { Route as ProfilesUserNameRouteImport } from './App/routes/profiles/$userName'
+import { Route as BooksTitleRouteImport } from './App/routes/books/$title'
 import { Route as AuthRegisterRouteImport } from './App/routes/auth/register'
 import { Route as AuthLoginRouteImport } from './App/routes/auth/login'
+import { Route as AccountUsernameRouteImport } from './App/routes/account/$username'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -25,9 +27,14 @@ const BooksIndexRoute = BooksIndexRouteImport.update({
   path: '/books/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AccountIndexRoute = AccountIndexRouteImport.update({
-  id: '/account/',
-  path: '/account/',
+const ProfilesUserNameRoute = ProfilesUserNameRouteImport.update({
+  id: '/profiles/$userName',
+  path: '/profiles/$userName',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BooksTitleRoute = BooksTitleRouteImport.update({
+  id: '/books/$title',
+  path: '/books/$title',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -40,48 +47,77 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountUsernameRoute = AccountUsernameRouteImport.update({
+  id: '/account/$username',
+  path: '/account/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account/$username': typeof AccountUsernameRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/account': typeof AccountIndexRoute
+  '/books/$title': typeof BooksTitleRoute
+  '/profiles/$userName': typeof ProfilesUserNameRoute
   '/books': typeof BooksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account/$username': typeof AccountUsernameRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/account': typeof AccountIndexRoute
+  '/books/$title': typeof BooksTitleRoute
+  '/profiles/$userName': typeof ProfilesUserNameRoute
   '/books': typeof BooksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account/$username': typeof AccountUsernameRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/account/': typeof AccountIndexRoute
+  '/books/$title': typeof BooksTitleRoute
+  '/profiles/$userName': typeof ProfilesUserNameRoute
   '/books/': typeof BooksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login' | '/auth/register' | '/account' | '/books'
+  fullPaths:
+    | '/'
+    | '/account/$username'
+    | '/auth/login'
+    | '/auth/register'
+    | '/books/$title'
+    | '/profiles/$userName'
+    | '/books'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login' | '/auth/register' | '/account' | '/books'
+  to:
+    | '/'
+    | '/account/$username'
+    | '/auth/login'
+    | '/auth/register'
+    | '/books/$title'
+    | '/profiles/$userName'
+    | '/books'
   id:
     | '__root__'
     | '/'
+    | '/account/$username'
     | '/auth/login'
     | '/auth/register'
-    | '/account/'
+    | '/books/$title'
+    | '/profiles/$userName'
     | '/books/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountUsernameRoute: typeof AccountUsernameRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
-  AccountIndexRoute: typeof AccountIndexRoute
+  BooksTitleRoute: typeof BooksTitleRoute
+  ProfilesUserNameRoute: typeof ProfilesUserNameRoute
   BooksIndexRoute: typeof BooksIndexRoute
 }
 
@@ -101,11 +137,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/account/': {
-      id: '/account/'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AccountIndexRouteImport
+    '/profiles/$userName': {
+      id: '/profiles/$userName'
+      path: '/profiles/$userName'
+      fullPath: '/profiles/$userName'
+      preLoaderRoute: typeof ProfilesUserNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/books/$title': {
+      id: '/books/$title'
+      path: '/books/$title'
+      fullPath: '/books/$title'
+      preLoaderRoute: typeof BooksTitleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -122,14 +165,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/$username': {
+      id: '/account/$username'
+      path: '/account/$username'
+      fullPath: '/account/$username'
+      preLoaderRoute: typeof AccountUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountUsernameRoute: AccountUsernameRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-  AccountIndexRoute: AccountIndexRoute,
+  BooksTitleRoute: BooksTitleRoute,
+  ProfilesUserNameRoute: ProfilesUserNameRoute,
   BooksIndexRoute: BooksIndexRoute,
 }
 export const routeTree = rootRouteImport

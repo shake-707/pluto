@@ -2,7 +2,13 @@ import api from '../default-api';
 import type { AxiosError } from 'axios';
 import { refreshToken } from './refresh-token';
 
-export const checkCurrentUser = async () => {
+export type CurrentUser = {
+  id: number;
+  user_name: string;
+  email: string;
+};
+
+export const checkCurrentUser = async (): Promise<CurrentUser | null> => {
   try {
     const res = await api.get('/user/current-user');
     return res.data.data;

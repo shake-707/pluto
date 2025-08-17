@@ -1,15 +1,16 @@
-import { currentUserQuery } from '../../Shared/queries/currUser';
+import { currentUserQuery } from '@/Shared/queries/currUser';
 import { useNavigate } from '@tanstack/react-router';
+import { useParams } from '@tanstack/react-router';
 
 const Account = () => {
   const navigate = useNavigate();
   const { data, isLoading } = currentUserQuery();
-
+  const params = useParams({from: '/account/$username'});
   if (isLoading) return <div>loading ...</div>;
   if (!isLoading && !data) {
     console.log('not logged in');
     navigate({
-      from: '/account',
+      from: '/account/$username',
       to: '/',
     });
   }
@@ -23,7 +24,7 @@ const Account = () => {
         </div>
         {data ? (
           <>
-            <div>{data.user_name}</div>
+            <div>{params.username}</div>
           </>
         ) : (
           <></>

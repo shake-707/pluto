@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Home from "../../Pages/home";
+import Home from "@/Pages/home";
+
 
 
 

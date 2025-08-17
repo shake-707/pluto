@@ -1,12 +1,12 @@
-import { cn } from '../../../lib/utils';
-import { Button } from '../../../Shared/ui/button';
+import { cn } from '@/lib/utils';
+import { Button } from '@/Shared/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../Shared/ui/card';
+} from '@/Shared/ui/card';
 
 import { Input } from '../../../Shared/ui/input';
 import { Label } from '../../../Shared/ui/label';

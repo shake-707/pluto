@@ -1,4 +1,4 @@
-import api from '../../../Shared/api/default-api';
+import api from '@/Shared/api/default-api';
 import type { User } from '../../../Shared/types/types';
 import type { LoginInput } from '../ui/login-form';
 
