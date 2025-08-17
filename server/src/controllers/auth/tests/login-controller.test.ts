@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserServices } from '@services/index';
-import loginUser from '@controllers/auth/login-user';
-
+import loginUser from '@controllers/auth/login-controller';
 
 jest.mock('@services/index');
 jest.mock('bcrypt');

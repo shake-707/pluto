@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import apiResponse from '@lib/api-response';
-import refreshTokenValidation from '../refreshToken-validation';
+import refreshTokenValidation from '../check-refresh-token';
 
 jest.mock('jsonwebtoken');
 jest.mock('@lib/api-response');

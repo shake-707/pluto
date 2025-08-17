@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import authConfig from '@config/auth-config';
 import apiResponse from '@lib/api-response';
-import refreshToken from '../refresh-token';
+import refreshToken from '../refresh-token-controller';
 
 jest.mock('jsonwebtoken');
 jest.mock('@config/auth-config');

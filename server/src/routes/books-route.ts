@@ -6,7 +6,7 @@ const routes: RouteConfig[] = [
     {
         method: 'get',
         path: '/',
-        handler: BooksController.fetchBooks
+        handler: BooksController.getBooksController
     }
 ]
 

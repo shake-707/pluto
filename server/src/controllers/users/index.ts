@@ -1,4 +1,4 @@
-import getUserFollowers from "./get-user-followers";
-import getCurrentUser from "./get-current-user";
+import getCurrentUserController from './get-current-user-controller';
+import getUserFollowersController from './get-user-followers-controller';
 
-export default {getUserFollowers, getCurrentUser}
+export default { getCurrentUserController, getUserFollowersController };

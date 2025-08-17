@@ -7,7 +7,7 @@ const routes: RouteConfig[] = [
     method: 'get',
     path: '/current-user',
     middleware: [AuthMiddleware.authenticateUser],
-    handler: UserController.getCurrentUser,
+    handler: UserController.getCurrentUserController,
   },
 ];
 

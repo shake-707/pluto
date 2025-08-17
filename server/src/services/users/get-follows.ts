@@ -14,3 +14,5 @@ const getUserFollows = async (userId: number): Promise<Partial<User>[]> => {
     throw err;
   }
 };
+
+export default getUserFollows;

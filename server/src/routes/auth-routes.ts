@@ -28,7 +28,7 @@ const routes: RouteConfig[] = [
     method: 'post',
     path: '/refresh-token',
     // check if user has refresh token
-    middleware: [AuthMiddleware.refreshTokenValidation],
+    middleware: [AuthMiddleware.checkRefreshToken],
     handler: AuthController.refreshToken,
   },
 ];

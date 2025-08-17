@@ -1,4 +1,4 @@
-import refreshTokenValidation from "./refreshToken-validation"; 
-import authenticateUser from "./authenticate-user";
+import checkRefreshToken from './check-refresh-token';
+import authenticateUser from './auth-user';
 
-export default {authenticateUser, refreshTokenValidation}
+export default { authenticateUser, checkRefreshToken};

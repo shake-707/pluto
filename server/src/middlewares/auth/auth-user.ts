@@ -17,8 +17,8 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const decodedToken = jwt.verify(token, authConfig.secret);
-    const {iat, exp, ...user} = decodedToken as jwt.JwtPayload;
+    const decoded_token = jwt.verify(token, authConfig.secret);
+    const {iat, exp, ...user} = decoded_token as jwt.JwtPayload;
     (req as any).user = user;
 
     next();

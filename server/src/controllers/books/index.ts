@@ -1,4 +1,3 @@
-import fetchBooks from "./get-books";
+import getBooksController from "./get-books-controller"
 
-
-export default {fetchBooks}
+export default {getBooksController}

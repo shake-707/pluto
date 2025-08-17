@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import apiResponse from '@lib/api-response';
 import jwt from 'jsonwebtoken';
 import authConfig from '@config/auth-config';
-import { decodedToken } from './authenticate-user';
+import { decodedToken } from './auth-user';
 
-const refreshTokenValidation = (
+const checkRefreshToken = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,7 +21,7 @@ const refreshTokenValidation = (
       refreshToken,
       authConfig.refresh_secret
     ) as decodedToken;
-    console.log('decoded token',decodedToken);
+    console.log('decoded token', decodedToken);
 
     (req as any).user = decodedToken;
 
@@ -35,4 +35,4 @@ const refreshTokenValidation = (
   }
 };
 
-export default refreshTokenValidation;
+export default checkRefreshToken;

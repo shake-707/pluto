@@ -9,7 +9,7 @@ import { UserServices } from '@services/index';
 const MINS_15 = 15 * 60 * 1000;
 const HRS_24 = 24 * 60 * 60 * 1000;
 
-const loginUser = async (req: Request, res: Response): Promise<void> => {
+const loginController = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } = req.body as z.infer<
       typeof login
@@ -23,17 +23,17 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const isValidPassword = await bcrypt.compare(
+    const is_valid_password = await bcrypt.compare(
       password,
       user.password_hash as string
     );
 
-    if (!isValidPassword) {
+    if (!is_valid_password) {
       apiResponse.notFound(res, null, 'invalid password');
       return;
     }
 
-    const accessToken = jwt.sign(
+    const access_token = jwt.sign(
       { userId: user.id, user_name: user.user_name, email: user.email },
       authConfig.secret,
       {
@@ -49,7 +49,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
       }
     );
 
-    res.cookie('accessToken', accessToken, {
+    res.cookie('accessToken', access_token, {
       httpOnly: true,
       maxAge: MINS_15,
       sameSite: 'strict',
@@ -70,4 +70,4 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export default loginUser;
+export default loginController;

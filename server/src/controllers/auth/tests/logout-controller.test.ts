@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import logoutUser from '../logout-user';
+import logoutUser from '../logout-controller';
 
 const mockResponse = (): Response => {
   const res: Partial<Response> = {};

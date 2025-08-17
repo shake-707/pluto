@@ -18,31 +18,31 @@ const registerUser = async (req: Request, res: Response) => {
       passwordConfirmation,
     } = req.body as z.infer<typeof register>;
 
-    const emailExists = await UserServices.getUser('email', email);
-    if (emailExists) {
+    const email_exists = await UserServices.getUser('email', email);
+    if (email_exists) {
       
       apiResponse.badRequest(res, null, 'email already exists');
       return;
     }
 
-    const userNameExists = await UserServices.getUser('user_name', username);
-    if (userNameExists) {
+    const user_name_exists = await UserServices.getUser('user_name', username);
+    if (user_name_exists) {
       apiResponse.badRequest(res, null, 'username already exists');
       return;
     }
 
-    const hashPassword = await bcrypt.hash(password, 12);
+    const hash_password = await bcrypt.hash(password, 12);
     const newUser = {
       user_name: username,
       email: email,
-      password_hash: hashPassword,
+      password_hash: hash_password,
     };
     console.log('new user: ', newUser);
 
     await UserServices.insertUser({
       user_name: username,
       email: email,
-      password_hash: hashPassword,
+      password_hash: hash_password,
     });
 
 
