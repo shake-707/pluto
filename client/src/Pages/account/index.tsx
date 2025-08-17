@@ -2,7 +2,7 @@ import { currentUserQuery } from '@/Shared/queries/currUser';
 import { useNavigate } from '@tanstack/react-router';
 import { useParams } from '@tanstack/react-router';
 
-const Account = () => {
+const AccountPage = () => {
   const navigate = useNavigate();
   const { data, isLoading } = currentUserQuery();
   const params = useParams({from: '/account/$username'});
@@ -34,4 +34,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default AccountPage;

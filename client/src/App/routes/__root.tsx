@@ -6,7 +6,7 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { Link } from '@tanstack/react-router';
 import { currentUserQuery } from '@/Shared/queries/currUser';
-import { logoutUser } from '@/Shared/api/logout-user';
+import { fetchLogoutUser } from '@/Shared/api/logout-user';
 import { Button } from '@/Shared/ui/button';
 
 const login = <Link to="/auth/login">Login</Link>;
@@ -15,12 +15,9 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-
   const location = useRouterState({ select: (s) => s.location });
-  const { data, isError,isLoading } = currentUserQuery();
+  const { data, isError, isLoading } = currentUserQuery();
 
- 
-  
   const accountLink = data?.user_name ? (
     <Link to={'/account/$username'} params={{ username: data?.user_name }}>
       account
@@ -49,7 +46,7 @@ function RootComponent() {
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
-                    logoutUser();
+                    fetchLogoutUser();
                   }}
                 >
                   logout

@@ -1,7 +1,7 @@
 import api from '../default-api';
 import { AxiosError } from 'axios';
 
-export const refreshToken = async () => {
+export const fetchRefreshToken = async () => {
   try {
     await api.post('auth/refresh-token');
     return true;

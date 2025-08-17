@@ -1,6 +1,6 @@
 import api from './default-api';
 
-export const logoutUser = (): Promise<void> => {
+export const fetchLogoutUser = (): Promise<void> => {
   return api
     .post('/auth/logout')
     .then((response) => {

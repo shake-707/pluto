@@ -1,6 +1,6 @@
 import api from '../default-api';
 import type { AxiosError } from 'axios';
-import { refreshToken } from './refresh-token';
+import { fetchRefreshToken} from './fetch-refresh-token';
 
 export type CurrentUser = {
   id: number;
@@ -8,14 +8,14 @@ export type CurrentUser = {
   email: string;
 };
 
-export const checkCurrentUser = async (): Promise<CurrentUser | null> => {
+export const fetchCurrentUser = async (): Promise<CurrentUser | null> => {
   try {
     const res = await api.get('/user/current-user');
     return res.data.data;
   } catch (err) {
     const e = err as AxiosError;
     if (e.response?.status === 401) {
-      const checkRefresh = await refreshToken();
+      const checkRefresh = await fetchRefreshToken();
       if (!checkRefresh) {
         return null;
       }
